@@ -1,0 +1,12 @@
+{% extends 'attendance/base.html' %}
+{% block title %}{{ heading }} | AttendEase{% endblock %}
+{% block content %}
+<div class="form-panel"><a class="back-link" href="{% url 'student_list' %}">← Back to students</a><h1>{{ heading }}</h1><p class="muted">Enter the student's information below.</p>
+<form method="post" class="data-form">{% csrf_token %}
+{% for field in form %}
+<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.errors %}<small class="error">{{ field.errors|striptags }}</small>{% endif %}</div>
+{% endfor %}
+{% if form.non_field_errors %}<p class="error">{{ form.non_field_errors }}</p>{% endif %}
+<div class="form-actions"><button class="btn primary" type="submit">Save Student</button><a class="btn secondary" href="{% url 'student_list' %}">Cancel</a></div>
+</form></div>
+{% endblock %}

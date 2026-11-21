@@ -1,0 +1,18 @@
+{% extends 'attendance/base.html' %}
+{% load attendance_tags %}
+{% block title %}Mark Attendance | AttendEase{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">DAILY REGISTER</p><h1>Mark Attendance</h1><p class="muted">Choose a date and mark each student's status.</p></div></div>
+<section class="panel">
+<form method="get" class="date-filter"><label for="date">Attendance date</label><input type="date" id="date" name="date" value="{{ selected_date }}"><button class="btn secondary" type="submit">Load</button></form>
+<form method="post">{% csrf_token %}<input type="hidden" name="date" value="{{ selected_date }}">
+<div class="table-wrap"><table><thead><tr><th>Roll No.</th><th>Student Name</th><th>Present</th><th>Absent</th></tr></thead><tbody>
+{% for student in students %}
+<tr><td>{{ student.roll_number }}</td><td>{{ student.full_name }}</td>
+<td><label class="radio-choice"><input type="radio" name="status_{{ student.id }}" value="Present" {% if existing|get_item:student.id == "Present" %}checked{% endif %}> Present</label></td>
+<td><label class="radio-choice"><input type="radio" name="status_{{ student.id }}" value="Absent" {% if existing|get_item:student.id == "Absent" %}checked{% endif %}> Absent</label></td></tr>
+{% empty %}<tr><td colspan="4" class="empty">Add students before marking attendance.</td></tr>{% endfor %}
+</tbody></table></div>
+{% if students %}<div class="panel-bottom"><span class="muted">Changes are saved for the selected date.</span><button class="btn primary" type="submit" name="save_attendance" value="1">Save Attendance</button></div>{% endif %}
+</form></section>
+{% endblock %}

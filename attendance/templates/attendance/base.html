@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Attendance Management{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'attendance/style.css' %}">
+</head>
+<body>
+{% if user.is_authenticated %}
+<header class="topbar">
+    <a class="brand" href="{% url 'dashboard' %}">AttendEase</a>
+    <nav>
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'student_list' %}">Students</a>
+        <a href="{% url 'mark_attendance' %}">Mark Attendance</a>
+        <a href="{% url 'attendance_records' %}">Records</a>
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}<button class="nav-logout" type="submit">Logout</button>
+        </form>
+    </nav>
+</header>
+{% endif %}
+<main class="container">
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+</main>
+<footer>Student Attendance Management System</footer>
+</body>
+</html>

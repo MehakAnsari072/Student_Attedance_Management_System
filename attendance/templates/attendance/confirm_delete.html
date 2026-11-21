@@ -1,0 +1,6 @@
+{% extends 'attendance/base.html' %}
+{% block title %}Delete Student | AttendEase{% endblock %}
+{% block content %}
+<div class="form-panel"><h1>Delete Student</h1><p>Are you sure you want to delete <strong>{{ student.full_name }}</strong> ({{ student.roll_number }})?</p><p class="muted">Attendance records for this student will also be deleted.</p>
+<form method="post">{% csrf_token %}<div class="form-actions"><button class="btn danger" type="submit">Yes, Delete</button><a class="btn secondary" href="{% url 'student_list' %}">Cancel</a></div></form></div>
+{% endblock %}

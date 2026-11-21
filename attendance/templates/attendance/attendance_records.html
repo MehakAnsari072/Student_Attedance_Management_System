@@ -1,0 +1,11 @@
+{% extends 'attendance/base.html' %}
+{% block title %}Attendance Records | AttendEase{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">ATTENDANCE HISTORY</p><h1>Attendance Records</h1><p class="muted">Review attendance by date.</p></div></div>
+<section class="panel">
+<form method="get" class="date-filter"><label for="date">Filter by date</label><input type="date" id="date" name="date" value="{{ selected_date }}"><button class="btn secondary" type="submit">Filter</button><a class="back-link" href="{% url 'attendance_records' %}">Clear</a></form>
+<div class="table-wrap"><table><thead><tr><th>Date</th><th>Roll No.</th><th>Student</th><th>Course</th><th>Status</th></tr></thead><tbody>
+{% for record in records %}<tr><td>{{ record.date }}</td><td>{{ record.student.roll_number }}</td><td>{{ record.student.full_name }}</td><td>{{ record.student.course }}</td><td><span class="pill {{ record.status|lower }}">{{ record.status }}</span></td></tr>
+{% empty %}<tr><td colspan="5" class="empty">No attendance records found.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

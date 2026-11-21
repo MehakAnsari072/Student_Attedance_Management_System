@@ -1,0 +1,22 @@
+{% extends 'attendance/base.html' %}
+{% block title %}Dashboard | AttendEase{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div><p class="eyebrow">OVERVIEW</p><h1>Dashboard</h1><p class="muted">Welcome, {{ request.user.username }}. Here is today's attendance summary.</p></div>
+    <a class="btn primary" href="{% url 'mark_attendance' %}">+ Mark Attendance</a>
+</div>
+<div class="stats-grid">
+    <div class="stat-card"><span class="stat-icon blue">♙</span><p>Total Students</p><h2>{{ total_students }}</h2></div>
+    <div class="stat-card"><span class="stat-icon green">✓</span><p>Present Today</p><h2>{{ present_today }}</h2></div>
+    <div class="stat-card"><span class="stat-icon red">×</span><p>Absent Today</p><h2>{{ absent_today }}</h2></div>
+    <div class="stat-card"><span class="stat-icon amber">◷</span><p>Not Marked</p><h2>{{ not_marked }}</h2></div>
+</div>
+<section class="panel">
+    <div class="panel-heading"><div><h2>Recent Attendance</h2><p class="muted">Latest attendance entries</p></div><a href="{% url 'attendance_records' %}">View all →</a></div>
+    <div class="table-wrap"><table><thead><tr><th>Roll No.</th><th>Student</th><th>Date</th><th>Status</th></tr></thead><tbody>
+    {% for record in recent_records %}
+    <tr><td>{{ record.student.roll_number }}</td><td>{{ record.student.full_name }}</td><td>{{ record.date }}</td><td><span class="pill {{ record.status|lower }}">{{ record.status }}</span></td></tr>
+    {% empty %}<tr><td colspan="4" class="empty">No attendance records yet.</td></tr>{% endfor %}
+    </tbody></table></div>
+</section>
+{% endblock %}
